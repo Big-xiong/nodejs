@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>注册</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<link rel="stylesheet" href="css/weui.css">
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		header img{
+			width: 200px;
+			text-align: center;
+			margin-left: 90px;
+			margin-top: 100px;
+		}
+		.weui-btn_primary{
+			margin:0 20px;
+			background-color: #333;
+		}
+		.weui-cells_form{
+			margin-bottom: 30px;
+		}
+	</style>
+	<script>
+		$(function(){
+			$('#iosDialog2').hide();
+			$('.reg').on('click',function(){
+				var $name = $('.weui-input').eq(0).val();
+				var $psw = $('.weui-input').eq(1).val();
+				console.log($name,$psw);
+				$.ajax({
+					url:'http://localhost:8008/reg',
+					type:'post',
+					data:{
+						name:$name,
+						psw:$psw
+					},
+					success:function(res){
+						console.log(res);
+						if(res.length == 0){
+							$('#iosDialog2').show();
+							$('.weui-dialog__bd p').text('注册成功');
+							$('.weui-dialog__ft a').text('登录').attr('href','login.html');
+						}else{
+							$('#iosDialog2').show();
+							$('.weui-dialog__bd p').text('该用户已存在');
+							$('.weui-dialog__ft a').click(function(){
+								$('#iosDialog2').hide();
+							});
+						}
+					}
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+	<header>
+		<img src="img/nikelogo.jpg" alt="">
+	</header>
+	<div class="weui-cells weui-cells_form">
+	    <div class="weui-cell weui-cell_vcode">
+	        <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">帐号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入帐号">
+                </div>
+            </div>
+	    </div>
+	    <div class="weui-cell weui-cell_vcode">
+	        <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="password" pattern="[0-9]*" placeholder="请输入密码">
+                </div>
+            </div>
+	    </div>
+	</div>
+	<a href="javascript:;" class="weui-btn weui-btn_primary reg">注册</a>
+	<div class="js_dialog" id="iosDialog2" style="opacity: 1;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">
+	            <p  style="text-decoration: underline;"></p>
+            </div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

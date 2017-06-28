@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>详情页</title>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script>
+		var str = location.search.slice(1);
+		var currId = str.split('=')[1]
+		console.log(str.split('=')[1]); 
+		$.ajax({
+			type:'post',
+			url:'http://localhost:8008/detail',
+			async:true,
+			data:{
+				id:currId
+			},
+			success:function(){
+
+			}
+		});
+	</script>
+	</head>
+<body>
+	<p>详情页</p>
+</body>
+</html>

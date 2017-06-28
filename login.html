@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>登录</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<link rel="stylesheet" href="css/weui.css">
+	<link rel="stylesheet" href="css/swiper.css">
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="js/swiper.jquery.js"></script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		header img{
+			width: 200px;
+			text-align: center;
+			margin-left: 90px;
+			margin-top: 100px;
+		}
+		.weui-btn_primary{
+			margin:0 20px;
+			background-color: #333;
+		}
+		.weui-cells_form{
+			margin-bottom: 30px;
+		}
+		.reg{
+			display: block;
+			margin-top: 20px;
+			text-decoration: underline;
+			text-align: center;
+		}
+	</style>
+	<script>
+		$(function(){
+			$('.login').on('click',function(){
+				var $name = $('.weui-input').eq(0).val();
+				var $psw = $('.weui-input').eq(1).val();
+				$.ajax({
+					type:'post',
+					url:'http://localhost:8008/login',
+					data:{
+						name:$name,
+						psw:$psw
+					},
+					success:function(data){
+						console.log(data);
+						//location.href = 'mine.html?id=1';
+					}
+				});
+			});
+			$('.reg').click(function(){
+				location.href = 'reg.html';
+			});	
+		});
+
+	</script>
+</head>
+<body>
+	<header>
+		<img src="img/nikelogo.jpg" alt="">
+	</header>
+	<div class="weui-cells weui-cells_form">
+	    <div class="weui-cell weui-cell_vcode">
+	        <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">帐号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入帐号">
+                </div>
+            </div>
+	    </div>
+	    <div class="weui-cell weui-cell_vcode">
+	        <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="password" pattern="[0-9]*" placeholder="请输入密码">
+                </div>
+            </div>
+	    </div>
+	</div>
+	<a href="javascript:;" class="weui-btn weui-btn_primary login">登录</a>
+	<a class="reg">前往注册</a>
+</body>
+</html>
