@@ -60,7 +60,7 @@
 			position: absolute;
 			opacity: 0;
 		}
-		header button{
+		 header button{
 			position: absolute;
 			top:50%;
 			margin-top: -20px;
@@ -71,7 +71,7 @@
 			width: 80px;
 			height: 40px;
 			border:1px solid #fff;
-		}
+		} 
 		.weui-cell__ft{
 			font-size: 16px;
 		}
@@ -139,9 +139,10 @@
 			var urlStr = location.search;
 			//console.log(urlStr);
 			if(urlStr !== ''){
-				$('button').hide();
+				$('#mainBtn').hide();
 				$('#head').show();
 			}
+			$('#setHead').hide();
 			$('#iosDialog2').hide();
 			$('.uphead').on('click',function(){
 				$('#iosDialog2').show();
@@ -159,18 +160,32 @@
 						$('.headImg').attr('src','http://localhost:8008/'+data.path[0].filename);
 					}
 				});
+				//console.log(new FormData($('#uploadForm')[0]));
+				
 				$('#iosDialog2').hide();
 			});
+
 			$('.js_show').hide();
 			$('.headImg').on('click',function(){
 				$('.weui-gallery img').attr('src',$(this).attr('src'));
 				$('.js_show').show();
 			});
+
 			$('.weui-mask').click(function(){
 				$('#iosDialog2').hide();
 			});
 			$('.weui-gallery__del').click(function(){
 				$('.js_show').hide();
+			});
+
+			$("#test").on("click",function(){						
+				$("#setHead").trigger("click");
+			});
+			$("#setHead").change(function(){
+				//console.log($("#setHead").val());
+				var str = $("#setHead").val().slice(12);
+				//console.log(str);
+				$('#test').text(str);
 			});
 		});
 	</script>
@@ -178,7 +193,7 @@
 <body>
 	<header>
 		<img src="img/banner2.jpg" alt="">
-		<button>登录/注册</button>
+		<button id="mainBtn">登录/注册</button>
 		<div id="head">
 			<span>
 				<img src="img/nike.jpg" alt="" class="headImg">
@@ -216,7 +231,7 @@
         </a>
     </div>
     <div class="weui-tabbar">
-        <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+        <a href="index.html" class="weui-tabbar__item weui-bar__item_on">
             <span style="display: inline-block;position: relative;">
                 <img src="./img/shouye.png" alt="" class="weui-tabbar__icon">
                 <!-- <span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span> -->
@@ -245,7 +260,8 @@
             <div class="weui-dialog__bd">
             	<form id="uploadForm">
 	            	<!-- <p  style="text-decoration: underline;">选择图片</p> -->
-	            	<input type="file" multiple="multiple" id="setHead" value="选择图片" style="font-size: 14px;" name="logo">	
+	            	<input type="file" multiple="multiple" id="setHead" value="选择图片" style="font-size: 14px;" name="logo">
+	            	<p id="test">上传图片</p>
             	</form>
             </div>
             <div class="weui-dialog__ft">

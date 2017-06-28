@@ -36,6 +36,7 @@
 	</style>
 	<script>
 		$(function(){
+			$('#iosDialog2').hide();
 			$('.login').on('click',function(){
 				var $name = $('.weui-input').eq(0).val();
 				var $psw = $('.weui-input').eq(1).val();
@@ -47,8 +48,17 @@
 						psw:$psw
 					},
 					success:function(data){
-						console.log(data);
-						//location.href = 'mine.html?id=1';
+						console.log(data[0].id);
+						if(data == 'no'){
+							$('#iosDialog2').show();
+							$('.weui-dialog__bd p').text('用户名或者密码错误');
+							$('.weui-dialog__ft a').text('知道了');
+							$('.weui-dialog__ft a').click(function(){
+								$('#iosDialog2').hide();
+							});
+						}else{
+							location.href = 'mine.html?id='+data[0].id;	
+						}
 					}
 				});
 			});
@@ -83,5 +93,16 @@
 	</div>
 	<a href="javascript:;" class="weui-btn weui-btn_primary login">登录</a>
 	<a class="reg">前往注册</a>
+	<div class="js_dialog" id="iosDialog2" style="opacity: 1;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">
+	            <p  style="text-decoration: underline;"></p>
+            </div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
