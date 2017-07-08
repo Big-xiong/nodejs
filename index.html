@@ -1,57 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>首页</title>
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<link rel="stylesheet" href="css/weui.css">
-	<link rel="stylesheet" href="css/swiper.css">
-	<script src="js/jquery-3.1.1.min.js"></script>
-	<script src="js/swiper.jquery.js"></script>
-	<script>
-		$(function(){
-			var swiper = new Swiper('.swiper-container', {
-				pagination: '.swiper-pagination',
-				paginationClickable: true
-			});
-			
-			var page = 1;
-			showGoods();
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="css/weui.css">
+    <link rel="stylesheet" href="css/swiper.css">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/swiper.jquery.js"></script>
+    <script>
+    $(function() {
+        var swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            paginationClickable: true
+        });
 
-			$('.page__bd').css({opacity:0});
+        var page = 1;
+        showGoods();
 
-			window.onscroll = function(){
-				// 获取当前浏览器窗口的高度
-				console.log($(window).height());
-				var toBottom = document.body.scrollHeight - document.body.scrollTop;
-				if(toBottom == $(window).height()){
-					page++;
-					$('.page__bd').css({opacity:1});
-					/*$('.weui-loadmore').show();
-					$('.weui-loadmore_line').hide();*/
-					showGoods();
-				}else{
-					$('.page__bd').css({opacity:0});
-				}
-			}
-			function showGoods(){
-				$.ajax({
-					type:'get',
-					url:'http://localhost:8008/goods',
-					dataType:'json',
-					data:{
-						page:page
-					},
-					async:true,
-					success:function(data){
-						// 判断是否为空数组
-						if(data.length === 0){
-							$('.page__bd').css({opacity:1});
-							$('.weui-loadmore').hide();
-							$('.weui-loadmore_line').show();
-						}else{
-							var html = data.map(function(item){
-								return `
+        $('.page__bd').css({
+            opacity: 0
+        });
+
+        window.onscroll = function() {
+            // 获取当前浏览器窗口的高度
+            console.log($(window).height());
+            var toBottom = document.body.scrollHeight - document.body.scrollTop;
+            if (toBottom == $(window).height()) {
+                page++;
+                $('.page__bd').css({
+                    opacity: 1
+                });
+                /*$('.weui-loadmore').show();
+                $('.weui-loadmore_line').hide();*/
+                showGoods();
+            } else {
+                $('.page__bd').css({
+                    opacity: 0
+                });
+            }
+        }
+
+        function showGoods() {
+            $.ajax({
+                type: 'get',
+                url: 'http://localhost:8008/goods',
+                dataType: 'json',
+                data: {
+                    page: page
+                },
+                async: true,
+                success: function(data) {
+                    // 判断是否为空数组
+                    if (data.length === 0) {
+                        $('.page__bd').css({
+                            opacity: 1
+                        });
+                        $('.weui-loadmore').hide();
+                        $('.weui-loadmore_line').show();
+                    } else {
+                        var html = data.map(function(item) {
+                            return `
 								<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" data-id =${item.id}>
 									<div class="weui-media-box__hd">
 										<img class="weui-media-box__thumb" src="${item.img}" alt="">
@@ -63,109 +73,387 @@
 									</div>
 								</a>	
 								`
-							}).join(' ');
-							$('.weui-panel__bd').append(html);
-							$('.weui-media-box_appmsg').on('click',function(){
-								var currId = $(this).data('id');
-								console.log(currId);
-								location.href = "detail.html?id="+currId;
-							});
-						}
-					}
-				});
-			}
-			$('.weui-tabbar__label').eq(3).click(function(){
-				location.href = 'mine.html';
-			});
-		});
-	</script>
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-		}
-		
-		header {
-			height: 45px;
-			line-height: 45px;
-			background-color: #000;
-			color: #fff;
-			font-size: 24px;
-			text-align: center;
-			position: relative;
-		}
-		header img{
-			width: 80px;
-			margin-top: -6px;
-		}
-		.swiper-container {
-			width: 100%;
-			height: 100%;
-		}
-		.swiper-slide {
-			overflow: hidden;
-			height:156px;
-			text-align: center;
-			font-size: 18px;
-			background: #fff;
-			/* Center slide text vertically */
-			display: -webkit-box;
-			display: -ms-flexbox;
-			display: -webkit-flex;
-			display: flex;
-			-webkit-box-pack: center;
-			-ms-flex-pack: center;
-			-webkit-justify-content: center;
-			justify-content: center;
-			-webkit-box-align: center;
-			-ms-flex-align: center;
-			-webkit-align-items: center;
-			align-items: center;
-		}
-		.swiper-slide img{
-			height: 100%;
-		}
-		.weui-panel__ft{
-			margin-bottom: 100px;
-		}
-		.weui-tabbar{
-			position: fixed;
-		}
-		.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{
-			color:#999999;
-		}
-	</style>
+                        }).join(' ');
+                        $('.weui-panel__bd').append(html);
+                        $('.weui-media-box_appmsg').on('click', function() {
+                            var currId = $(this).data('id');
+                            console.log(currId);
+                            location.href = "detail.html?id=" + currId;
+                        });
+                    }
+                }
+            });
+        }
+        $('.weui-tabbar__label').eq(3).click(function() {
+            location.href = 'mine.html';
+        });
+    });
+    </script>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    ul,
+    li {
+        list-style: none;
+    }
+    
+    header {
+        height: 45px;
+        line-height: 45px;
+        background-color: #000;
+        color: #fff;
+        font-size: 24px;
+        text-align: center;
+        position: relative;
+    }
+    
+    header img {
+        width: 80px;
+        margin-top: -6px;
+    }
+    header span{
+    	width: 30px;
+    	height: 30px;
+    	display: block;
+    }
+    header span img{
+    	width: 100%;
+    }
+    .left{
+    	float: left;
+    	margin-top:5px;
+    	margin-left: 7px;
+    }
+    .right{
+    	float: right;
+    	margin-right: 7px;
+    	margin-top: 5px;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .swiper-slide {
+        overflow: hidden;
+        height: 156px;
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+    
+    .swiper-slide img {
+        height: 100%;
+    }
+    
+    .icons-list {
+        overflow: hidden;
+    }
+    
+    .icons-wrapper {
+        box-sizing: border-box;
+        padding: 15px 0 2px;
+        background: #fff;
+        background-size: 100% 100%;
+        overflow: hidden;
+    }
+    
+    .icons-item {
+        height: 80px;
+        width: 25%;
+        font-size: 12px;
+        float: left;
+        text-align: center;
+    }
+    
+    .icons-item img {
+        display: block;
+        width: 40px;
+        margin-left: 26px;
+    }
+    
+    .icons-item a {
+        display: block;
+        margin-top: 4px;
+        color: #999;
+        text-align: center;
+    }
+    
+    .weui-panel__ft {
+        margin-bottom: 100px;
+    }
+    
+    .weui-tabbar {
+        position: fixed;
+    }
+    
+    .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label {
+        color: #999999;
+    }
+    
+    .banner-list img {
+        margin-top: 10px;
+        width: 100%;
+    }
+    
+    .hengxiang {
+        margin-top: 10px;
+        /*不能给弹性盒子，弹性盒子的内容不能超过父级的内容，所以span无法撑开main。*/
+        /*display:flex;*/
+        /*width: 1000px;*/
+        /*height: 200px;*/
+        overflow-x: auto;
+        display: -webkit-box;
+        /*background-color: blue;*/
+        /*overflow-x: scroll;*/
+        -webkit-overflow-scrolling: touch;
+        padding: 10px;
+    }
+    
+    .hengxiang .hot-single-goods {
+        display: block;
+        /*background-color: yellow;*/
+        margin-right: 10px;
+    }
+    
+    .hot-single-goods:last-child {
+        padding-right: 10px;
+    }
+    
+    .hot-single-goods img {
+        width: 100px;
+    }
+    
+    .hot-single-goods p,
+    .hot-single-goods h3 {
+        font-size: 12px;
+        text-align: center;
+        line-height: 12px;
+        color: #999;
+    }
+    </style>
 </head>
+
 <body>
-	<header><img src="img/nike.jpg" alt=""></header>
-	<!-- Swiper -->
-	<div class="swiper-container">
-		<div class="swiper-wrapper">
-			<div class="swiper-slide"><img src="img/banner4.jpg" alt=""></div>
-			<div class="swiper-slide"><img src="img/banner5.jpg" alt=""></div>
-			<div class="swiper-slide"><img src="img/banner6.jpg" alt=""></div>
-		</div>
-		<!-- Add Pagination -->
-		<div class="swiper-pagination"></div>
-	</div>
-	<div class="weui-panel weui-panel_access">
-		<!--<div class="weui-panel__hd">图文组合列表</div>-->
-		<div class="weui-panel__bd">
-		</div>
-		<div class="page__bd">
-	        <div class="weui-loadmore">
-	            <i class="weui-loading"></i>
-	            <span class="weui-loadmore__tips">正在加载</span>
-	        </div>
-	        <div class="weui-loadmore weui-loadmore_line" style="display: none;">
-	            <span class="weui-loadmore__tips">暂无数据</span>
-	        </div>
-	        <div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-	            <span class="weui-loadmore__tips"></span>
-	        </div>
-	    </div>
-	</div>
-	<div class="weui-tabbar">
+    <header>
+    	<span class="left">
+    		<img src="img/more.png" alt="">
+    	</span>
+        <img src="img/nike.jpg" alt="">
+        <span class="right">
+        	<img src="img/search.png" alt="">
+        </span>
+    </header>
+    <!-- Swiper -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="img/banner4.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="img/banner5.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="img/banner6.jpg" alt=""></div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="icons-wrapper" style="background-image:url(//img11.static.yhbimg.com/yhb-img01/2017/02/03/09/012861c7ab0b730fe5825bab664bd374b7.jpg?imageView2/2/w/640/h/360/q/60)">
+        <ul class="icons-list clearfix">
+            <li class="icons-item item-4">
+                <a href="" class="imagebar"><img src="//img10.static.yhbimg.com/yhb-img01/2017/02/03/09/01ae835d5ae6d9502818daf351ad2db6cf.png?imageView2/2/w/98/h/98/q/60" alt=""></a><a href="" class="linkbar">新品到着</a></li>
+            <li class="icons-item item-4">
+                <a href="" class="imagebar"><img src="//img10.static.yhbimg.com/yhb-img01/2017/02/03/09/0126acdfd5558ca5be890abc9f6d928312.png?imageView2/2/w/98/h/98/q/60" alt=""></a><a href="" class="linkbar">潮流优选</a></li>
+            <li class="icons-item item-4">
+                <a href="" class="imagebar"><img src="//img11.static.yhbimg.com/yhb-img01/2017/02/03/09/01184bba3491999801ec2b9c450526e9dc.png?imageView2/2/w/98/h/98/q/60" alt=""></a><a href="" class="linkbar">明星原创</a></li>
+            <li class="icons-item item-4">
+                <a href="" class="imagebar"><img src="//img10.static.yhbimg.com/yhb-img01/2017/02/03/09/01b097e06ac9fc78bbcc3d3e0dfbe01fcc.png?imageView2/2/w/98/h/98/q/60" alt=""></a><a href="https://m.yohobuy.com/cate?gender=1,3" class="linkbar">全部分类</a></li>
+            <li class="icons-item item-4">
+                <a href="" class="imagebar"><img src="//img11.static.yhbimg.com/yhb-img01/2017/06/22/11/01f3e5a61c05b2acee0da50f184649808c.png?imageView2/2/w/98/h/98/q/60" alt=""></a><a href="" class="linkbar">瞩目聚焦</a></li>
+            <li class="icons-item item-4">
+                <a href="" class="imagebar"><img src="//img11.static.yhbimg.com/yhb-img01/2017/02/03/09/011004f5a04caaf9c18d7848049a75981e.png?imageView2/2/w/98/h/98/q/60" alt=""></a><a href="" class="linkbar">人气搭配</a></li>
+            <li class="icons-item item-4">
+                <a href="" class="imagebar"><img src="//img10.static.yhbimg.com/yhb-img01/2017/02/03/09/01a55ebc7f3be53fa782b89ac1ab25614d.png?imageView2/2/w/98/h/98/q/60" alt=""></a><a href="">潮品推荐</a></li>
+            <li class="icons-item item-4">
+                <a href="" class="imagebar"><img src="//img11.static.yhbimg.com/yhb-img01/2017/02/03/09/01d35157ab5942ea40b4f08a11c1680a17.png?imageView2/2/w/98/h/98/q/60" alt=""></a><a href="" class="linkbar">折扣专区</a></li>
+        </ul>
+    </div>
+    <div data-id="37473">
+        <div class="banner-list">
+            <a href="" id="37473" name="一张图片">
+                <img src="//img10.static.yhbimg.com/yhb-img01/2017/07/03/09/0130f8fde782affc6618faaa0e764f7392.jpg?imageView2/3/w/640/h/200/q/60" alt="">
+            </a>
+        </div>
+    </div>
+    <div data-id="36611">
+        <div class="banner-list">
+            <a href="">
+                <img src="//img10.static.yhbimg.com/yhb-img01/2017/07/05/10/01807301d150b14ddb38ed1602f7478ee3.jpg?imageView2/3/w/640/h/200/q/60" alt="">
+            </a>
+        </div>
+    </div>
+    <ul class="hengxiang">
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51344786.html">
+                <img src="//img10.static.yhbimg.com/goodsimg/2017/03/19/19/0130132b581c816e7ad5805ef9ce4ae013.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 219.00</h3>
+                    <p class="view-num">168人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51546666.html">
+                <img src="//img10.static.yhbimg.com/goodsimg/2017/04/10/11/0177a8743dae24632d2b585292044728b6.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 60.00</h3>
+                    <p class="view-num">92人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51547728.html">
+                <img src="//img11.static.yhbimg.com/goodsimg/2017/05/09/13/01f4ac868df43f1dc9825d3ec4459b6f60.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 59.00</h3>
+                    <p class="view-num">163人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51533336.html">
+                <img src="//img11.static.yhbimg.com/goodsimg/2017/05/22/16/01c13eec3663a3686ed11beb030ee3f181.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 129.00</h3>
+                    <p class="view-num">116人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51538574.html">
+                <img src="//img12.static.yhbimg.com/goodsimg/2017/05/27/17/02faa6f8e6d9a2ad51931db241c2828621.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 179.00</h3>
+                    <p class="view-num">108人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51584610.html">
+                <img src="//img12.static.yhbimg.com/goodsimg/2017/05/09/16/0243ceabd7f04b93b5f44bd79f633b56a9.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 68.00</h3>
+                    <p class="view-num">125人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51481630.html">
+                <img src="//img10.static.yhbimg.com/goodsimg/2017/04/19/14/01a09b5eb2b0de433c4240d1802e0fd1e5.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 219.00</h3>
+                    <p class="view-num">104人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51531436.html">
+                <img src="//img10.static.yhbimg.com/goodsimg/2017/06/08/16/0181e96128390b42dad57661df99deb281.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 129.00</h3>
+                    <p class="view-num">127人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51202390.html">
+                <img src="//img11.static.yhbimg.com/goodsimg/2016/02/24/06/01bbc7ae53bf77234ebb6c7fe01c576f1c.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 145.00</h3>
+                    <p class="view-num">168人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51174851.html">
+                <img src="//img13.static.yhbimg.com/goodsimg/2016/01/14/09/022b41782a13aeed4c7ae3927cce1b723c.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 39.00</h3>
+                    <p class="view-num">58人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51572092.html">
+                <img src="//img10.static.yhbimg.com/goodsimg/2017/06/12/17/0101a5640dbd46518362f4a4e32c6a9b37.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 159.00</h3>
+                    <p class="view-num">168人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51611282.html">
+                <img src="//img13.static.yhbimg.com/goodsimg/2017/05/26/11/0272615d771730ad1fa0d276cb202f8740.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 99.00</h3>
+                    <p class="view-num">55人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+        <li class="hot-single-goods">
+            <a href="//m.yohobuy.com/product/51558628.html">
+                <img src="//img11.static.yhbimg.com/goodsimg/2017/04/28/17/01e6ef5b7962e50979b4b778d6dccb71d1.jpg?imageMogr2/thumbnail/153x206/extent/153x206/background/d2hpdGU=/position/center/quality/60" alt="goods" class="goods-pic">
+                <div class="goods-info">
+                    <h3 class="price">¥ 99.00</h3>
+                    <p class="view-num">162人</p>
+                    <p class="view-status">正在浏览</p>
+                </div>
+            </a>
+        </li>
+    </ul>
+    <div class="weui-panel weui-panel_access">
+        <!--<div class="weui-panel__hd">图文组合列表</div>-->
+        <div class="weui-panel__bd">
+        </div>
+        <div class="page__bd">
+            <div class="weui-loadmore">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line" style="display: none;">
+                <span class="weui-loadmore__tips">暂无数据</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+                <span class="weui-loadmore__tips"></span>
+            </div>
+        </div>
+    </div>
+    <div class="weui-tabbar">
         <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
             <span style="display: inline-block;position: relative;">
                 <img src="./img/shouye.png" alt="" class="weui-tabbar__icon">
@@ -190,4 +478,5 @@
         </a>
     </div>
 </body>
+
 </html>
